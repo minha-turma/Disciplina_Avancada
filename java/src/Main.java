@@ -8,35 +8,38 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Random r = new Random();
-	//	FileReader arquivo = new FileReader("src/IAfileMovies2.txt");
-	//	FileReader arquivoUsers = new FileReader("src/IAfileUsers.txt");
+		FileReader arquivo = new FileReader("../recomender/data/data/final_dataset.txt");
 		Kmeans var = new Kmeans();
-	//	Scanner sc = new Scanner(arquivo).useDelimiter("\\n|,"); // lerá o arquivo com os filmes
-	//	Scanner scan = new Scanner(arquivoUsers).useDelimiter("\\n|,"); //lerá os arquivos com os usuários e avaliações
-	//	Scanner scanner = new Scanner(System.in);
+		Scanner sc = new Scanner(arquivo).useDelimiter("\\n|,"); 
+		Scanner scanner = new Scanner(System.in);
 		Point[] verifica = new Point[var.getK()];
 		boolean loop = true;
 		int j = 0;
 		int contador = 0;
 	
-		while(contador< 100) {
+		while(sc.hasNext()) {
 			
-			Point p = new Point("",0);
-			p.addCaracteristica(r.nextInt(11));
-			p.addCaracteristica(r.nextInt(11));
+			Point p = new Point("");
+			
+			for(int i = 0; i< 566; i++) {
+				
+				p.addCaracteristica(Double.valueOf(sc.next()));
+				
+			}
+			
+			p.setLink(sc.next());
 			var.addPoint(p);
 			
 			System.out.println(p);
 			
-			contador++;
-			
 		}
-		contador = 0;
+		
 		
 		System.out.print("\n\n");
 		for(int i = 1;  i <= var.getK(); i++){
 			
-			Cluster c = new Cluster(i,var.getPontos(r.nextInt(10))); // instância de K Clusters
+			//Cluster c = new Cluster(i,var.getPontos(r.nextInt(10))); // instância de K Clusters
+			Cluster c = new Cluster(i, var.getPontos(i-1));
 			var.addCluster(c);
 			System.out.println(c.getCentro());
 		}
@@ -82,6 +85,7 @@ public class Main {
 				contador = 0;
 				
 			}
+		var.sse();
 		
 	}
 

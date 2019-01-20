@@ -4,16 +4,14 @@ import java.util.Arrays;
 
 public class Point {
 	
-	private String categoria; 
-	private int id;
+	private String link; 
 	private ArrayList<Double> arrayCaracteristicas;
 	
 
-	public Point(String categoria, int id) {
+	public Point(String link) {
 		
 		this.arrayCaracteristicas = new ArrayList<Double>();
-		this.categoria = categoria;
-		this.id = id;
+		this.link = link;
 	}
 
 	
@@ -26,8 +24,8 @@ public class Point {
 	}
 
 
-	public int getId(){
-		return id;
+	public String getLink(){
+		return link;
 	}
 	
 	public void addCaracteristica(double caracteristica) {
@@ -36,6 +34,11 @@ public class Point {
 		
 	}
 
+
+
+	public void setLink(String link) {
+		this.link = link;
+	}
 
 
 	// distancia euclidiana
@@ -52,15 +55,8 @@ public class Point {
 	}
 	
 	public String toString() {
-		
-		String s = "(";
-		
-		for(double d : this.arrayCaracteristicas ) {
-			s = s.concat(d + " ");
-		}
-		s = s.concat(")");
-		
-		return s;
+	
+		return this.getLink();
 		
 	}
 	

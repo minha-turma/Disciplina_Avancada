@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Kmeans {
 	
-	private int k = 2; // número de clusters
+	private int k = 14; // número de clusters
 	private ArrayList<Point> pontos;
 	private ArrayList<Cluster> clusters;
 	
@@ -113,7 +113,7 @@ public class Kmeans {
 			}
 				
 			
-			Point centroide = new Point("", 0);
+			Point centroide = new Point("Novo Centro");
 			centroide.setCaracteristicas(arrayCaracteristicas);
 			if(pontos.size() != 0){
 				c.setCentro(centroide);
@@ -121,20 +121,77 @@ public class Kmeans {
 		}	
 	}
 	
-	/*
-	public Pontos centroDados(){
+	
+	public Point centroDados(){
 		
+		int counter = 0;
 		double totalX = 0;
 		double totalY = 0;
+		ArrayList<Double> arrayCaracteristicas = new ArrayList<Double>();
+		double somas[] = new double[this.getPontos(0).getCaracteristicas().size()];
 		
-		for(Pontos p: this.getPontos()){
-			
-			totalX = totalX + p.getX();
-			totalY = totalY + p.getY();
+		for(Point p: this.getPontos()){
+			counter ++;
+			for(int i = 0; i<p.getCaracteristicas().size(); i++) {
+				if(counter == 1) {
+					somas[i] = p.getCaracteristicas().get(i);	
+				}
+				else {
+					somas[i] = somas[i] + p.getCaracteristicas().get(i);
+				}
+			}
 			
 		}
 		
-		return new Pontos(totalX/this.getPontos().size() ,totalY/this.getPontos().size());
+		for(int i = 0; i< somas.length; i++) {
+			arrayCaracteristicas.add(i, (somas[i]/counter));
+		}
+			
+		
+		Point centroide = new Point("");
+		centroide.setCaracteristicas(arrayCaracteristicas);
+		
+		return centroide;
 	}
-		*/
+		
+	
+	public double wss(){
+			
+			double valor = 0;
+			
+			for(int i = 0; i< this.getK();i++){
+				for(Point p: this.getClusters(i).getPontos()){
+					valor = valor + Math.pow(Point.euclidianDistance(p, this.getClusters(i).getCentro()), 2);
+				}
+			}
+			
+			System.out.println("WSS"); //coesão
+			System.out.printf("%.1f \n",valor);
+			
+			return valor;
+		}
+		
+		
+		public double bss(){
+			
+			double valor = 0;
+			
+			for(int i = 0; i< this.getK(); i++){
+				
+				valor = valor + this.getClusters(i).getPontos().size() * Math.pow(Point.euclidianDistance(this.getClusters(i).getCentro(), this.centroDados()), 2);
+			}
+			
+			System.out.println("BSS");// separação
+			System.out.printf("%.1f \n",valor);
+			
+			return valor;
+		}
+		
+		
+		public void sse(){
+			
+			double var = (this.bss() + this.wss());
+			System.out.printf("Total: %.1f", var );
+			
+		}
 }
